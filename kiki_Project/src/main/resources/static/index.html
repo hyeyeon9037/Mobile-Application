@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <!-- 로그인 페이지 -->
+    <div id="login-page">
+        <h1>Login</h1>
+        <form id="login-form">
+            <label for="loginId">ID:</label>
+            <input type="text" id="loginId" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- 메인 페이지 -->
+    <div id="main-page" style="display: none;">
+        <h1>Welcome</h1>
+        <p>Name: <span id="driverName"></span></p>
+        <p>Route: <span id="routeName"></span></p>
+        <p>Bus Number: <span id="busNumber"></span></p>
+        <button id="logout-button">Logout</button>
+    </div>
+
+    <script src="login.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
