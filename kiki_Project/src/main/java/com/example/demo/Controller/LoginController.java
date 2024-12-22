@@ -1,27 +1,34 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Dto.LoginRequest;
-import com.example.demo.Service.AuthService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class LoginController {
-    private final AuthService authService;
 
-    public LoginController(AuthService authService) {
-        this.authService = authService;
+    private final RestTemplate restTemplate;
+
+    public LoginController(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        String token = authService.login(loginRequest);
-        if (token != null) {
-            return ResponseEntity.ok(token);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
+        String url = "http://168.126.147.134:18080/auth/login";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<LoginRequest> request = new HttpEntity<>(loginRequest, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+            return ResponseEntity.ok(response.getBody());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 }

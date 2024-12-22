@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        const response = await fetch('http://localhost:8080/api/main', {
+        const response = await fetch('http://168.126.147.134:18080/auth/main', { // URL 수정
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}` // Bearer 토큰 추가
             }
         });
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('busNumber').textContent = data.busNumber;
         } else {
             alert('Failed to fetch data. Please log in again.');
-            localStorage.removeItem('jwt');
+            localStorage.removeItem('jwt'); // 토큰 삭제
             location.reload();
         }
     } catch (error) {

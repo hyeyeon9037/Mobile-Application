@@ -1,11 +1,11 @@
 document.getElementById('login-form').addEventListener('submit', async (event) => {
-    event.preventDefault(); // 폼 제출 방지
+    event.preventDefault();
 
     const loginId = document.getElementById('loginId').value;
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('http://localhost:8080/api/login', {
+        const response = await fetch('/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -17,13 +17,10 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
             const data = await response.text();
             localStorage.setItem('jwt', data); // JWT 토큰 저장
             alert('Login successful!');
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('main-page').style.display = 'block';
         } else {
-            alert('Login failed. Please check your credentials.');
+            alert('Login failed');
         }
     } catch (error) {
         console.error('Error during login:', error);
-        alert('An error occurred. Please try again.');
     }
 });
