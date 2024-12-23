@@ -17,6 +17,7 @@ document.getElementById('login-form').addEventListener('submit', async (event) =
             const data = await response.text();
             localStorage.setItem('jwt', data); // JWT 토큰 저장
             alert('Login successful!');
+			window.location.href = 'main.html';
         } else {
             alert('Login failed');
         }
