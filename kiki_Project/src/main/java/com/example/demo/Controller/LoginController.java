@@ -16,6 +16,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
+    @CrossOrigin(origins = "http://localhost:8080")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         String url = "http://168.126.147.134:18080/auth/login";
 

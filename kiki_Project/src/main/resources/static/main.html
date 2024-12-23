@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #info-container {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .info-item {
+            margin-bottom: 10px;
+        }
+        .info-item span {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-	<div id="main-page">
-        <h1>Welcome to the Main Page</h1>
-        <p id="user-info"></p>
-        <button id="logout-button">Logout</button>
-         <button id="main-check">조회</button>
-         <script src="main.js"></script>
+    <h1>Main Page</h1>
+    <div id="info-container">
+        <div class="info-item">Name: <span id="driverName">Loading...</span></div>
+        <div class="info-item">Route: <span id="routeName">Loading...</span></div>
+        <div class="info-item">Bus Number: <span id="busNumber">Loading...</span></div>
     </div>
+    <button id="logout">Logout</button>
+    <script src="main.js"></script>
 </body>
 </html>

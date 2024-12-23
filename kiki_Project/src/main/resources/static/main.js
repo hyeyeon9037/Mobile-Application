@@ -1,39 +1,42 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const token = localStorage.getItem('jwt');
+const BASE_API = 'http://localhost:8080'; // 백엔드 URL
+const jwt = localStorage.getItem('jwt'); // 로그인 시 저장된 JWT 토큰 가져오기
 
-    if (!token) {
-        alert('Please log in first.');
-        document.getElementById('login-page').style.display = 'block';
-        document.getElementById('main-page').style.display = 'none';
-        return;
-    }
+if (!jwt) {
+    alert('You are not logged in!');
+    window.location.href = 'index.html'; // 로그인 페이지로 리다이렉트
+}
 
-    try {
-        const response = await fetch('http://168.126.147.134:18080/auth/main', { // URL 수정
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}` // Bearer 토큰 추가
-            }
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            document.getElementById('driverName').textContent = data.driverName;
-            document.getElementById('routeName').textContent = data.routeName;
-            document.getElementById('busNumber').textContent = data.busNumber;
-        } else {
-            alert('Failed to fetch data. Please log in again.');
-            localStorage.removeItem('jwt'); // 토큰 삭제
-            location.reload();
+// 페이지 로드 시 사용자 정보 불러오기
+document.addEventListener('DOMContentLoaded', () => {
+    axios.get(`${BASE_API}/auth/main`, {
+        headers: {
+            Authorization: `Bearer ${jwt}` // JWT 토큰 포함
         }
-    } catch (error) {
-        console.error('Error fetching main page data:', error);
-        alert('An error occurred. Please try again.');
-    }
+    })
+    .then((response) => {
+        if (response.status === 200) {
+            const data = response.data;
+            console.log("데이터값", data);
+
+            // 데이터 렌더링
+            document.getElementById('driverName').textContent = data.driverName || 'N/A';
+            document.getElementById('routeName').textContent = data.routeName || 'N/A';
+            document.getElementById('busNumber').textContent = data.busNumber || 'N/A';
+        } else {
+            console.error('Failed to fetch user info:', response.statusText);
+            alert('Failed to load user information. Please try again.');
+        }
+    })
+    .catch((error) => {
+        console.error('Error fetching user info:', error.response ? error.response.data : error.message);
+        alert('An error occurred while loading user information.');
+        window.location.href = 'index.html'; // 로그인 페이지로 리다이렉트
+    });
 });
 
-document.getElementById('logout-button').addEventListener('click', () => {
+// 로그아웃 기능
+document.getElementById('logout').addEventListener('click', () => {
     localStorage.removeItem('jwt'); // JWT 토큰 삭제
-    alert('Logged out successfully.');
-    location.reload();
+    alert('로그아웃 성공');
+    window.location.href = 'index.html'; // 로그인 페이지로 리다이렉트
 });
